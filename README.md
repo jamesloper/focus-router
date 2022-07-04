@@ -57,7 +57,7 @@ import Router, {
 import { defineRoute } from 'focus-router';
 ```
 
-You can put a bunch of these next to each other to define all the routes.
+You can put a bunch of these next to each other to define all the routes. You can put these at the root level, I like to put them in App.js (CRA) or main.js (Meteor).
 
 | Name      | Type      | Description                                                                                                  |
 |-----------|-----------|--------------------------------------------------------------------------------------------------------------|
@@ -66,19 +66,30 @@ You can put a bunch of these next to each other to define all the routes.
 | component | Component | React Component to render (not React element)                                                                |
 | layout    | Component | Component to wrap the component in                                                                           |
 
-Example:
+## `<Route/>`
+
+This component will simply render the component for whichever route is active.
+
+Here is an example app!
 
 ```javascript
 import React from 'react';
-import { Route } from 'focus-router';
+import { createRoot } from 'react-dom/client';
+import Router, { defineRoute } from 'focus-router';
+import Home from './imports/pages/Home';
 import Login from './imports/pages/Login';
+
+defineRoute('Home', '/', Home);
+defineRoute('Login', '/login', Login);
 
 const App = () => (
   <div>
-    <Route name="Login" path="/login" component={Login}/>
-    <Route name="LandingPage" path="/" component={LandingPage}/>
+    <h1>Hello World</h1>
+    <Router/>
   </div>
 );
+
+createRoot(document.getElementById('root')).render(<App/>);
 ```
 
 ## `createLink(routeName, params, queryParams)`
