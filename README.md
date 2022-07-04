@@ -103,7 +103,7 @@ createRoot(document.getElementById('root')).render(<App/>);
 ## `createLink(routeName, params, queryParams)`
 
 ``` javascript
-import { createLink } from 'focus-router';'
+import { createLink } from 'focus-router';
 ```
 
 Not generally needed, but it returns a URL that can be navigated to. This can be useful to create a dynamic A tag, or to dynamically go to different places depending on some user actions. `params` and `queryParams` are encoded within the string.
@@ -115,7 +115,7 @@ Not generally needed, but it returns a URL that can be navigated to. This can be
 ## `useRouteName()`
 
 ``` javascript
-import { useRouteName } from 'focus-router';'
+import { useRouteName } from 'focus-router';
 ```
 
 Returns the name *(String)* of the currently presented route.
@@ -123,7 +123,7 @@ Returns the name *(String)* of the currently presented route.
 ## `useUnsavedChanges(active, callback)`
 
 ``` javascript
-import { useUnsavedChanges } from 'focus-router';'
+import { useUnsavedChanges } from 'focus-router';
 ```
 
 - `active` *(Boolean, default = true)* will cause navigating away from the current URL (such as clicking a link or using the back button) to be ignored. When the stack is exhausted, the browser's native Save Changes modal will be presented.
@@ -132,7 +132,7 @@ import { useUnsavedChanges } from 'focus-router';'
 ## `navigation`
 
 ``` javascript
-import { navigation } from 'focus-router';'
+import { navigation } from 'focus-router';
 ```
 
 ### `navigation.go(target, params, queryParams, opts)`
@@ -155,7 +155,7 @@ Shortcut for `navigation.go`, only changes the query params *(Object)*.
 ## `useParam(key, defaultValue)`
 
 ``` javascript
-import { useParam } from 'focus-router';'
+import { useParam } from 'focus-router';
 
 const [selected, setSelected] = useParam('selected');
 ```
@@ -163,7 +163,7 @@ const [selected, setSelected] = useParam('selected');
 ## `useQueryParam(key, defaultValue)`
 
 ``` javascript
-import { useQueryParam } from 'focus-router';'
+import { useQueryParam } from 'focus-router';
 
 const [search, setSearch] = useQueryParam('search');
 ```
