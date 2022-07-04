@@ -2,7 +2,7 @@
 <img src="https://jamesloper.com/assets/focus.png" height="92" alt="Focus Router"/>
 </center>
 
-**This router is the most golfed router ever made, but it's also NO slouch!** Focus Router is used across all my companies (and one has multi-million dollar revenue), and is in use in 4 personal projects.
+**This router is the most golfed router ever made, but it's also no slouch!** Focus Router is used across all my companies (and one has multi-million dollar revenue), and is in use in 4 personal projects.
 
 ## The Focus Router Mission
 
@@ -22,12 +22,9 @@ defineRoute('HomePage', '/', () => (
 createRoot(document.getElementById('root')).render(<Router/>);
 ```
 
-Aside from simplicity, there are many advantages of using focus router:
+Aside from simplicity, focus router has a better feature set than React Router (55KB), yet is smaller than Wouter (1.5KB). Both suffer from a lack of focus (on the right things), which is why this router exists!
 
-- Paradoxically, a better feature set than React Router (55KB), yet smaller than Wouter (1.5KB). Both suffer from a lack of focus (on the right things), which is why this router exists!
-- Optimizations to route matching that are impossible with dynamic routing. Focus router is not only small but it's also optimized to the extreme.
-
-### Focus Router is Opinionated, Thorough and Handy
+### Opinionated, Thorough and Handy
 
 1. *Opinionated:* Automatically binds `<a>` tags.
 2. *Thorough:* Supports disabling navigation with `useUnsavedChanges()`
@@ -35,13 +32,11 @@ Aside from simplicity, there are many advantages of using focus router:
 
 ## Install
 
-In your project, run...
-
 ```bash
 npm install focus-router
 ```
 
-## Table of contents
+## Documentation
 
 ``` javascript
 import Router, { 
@@ -56,9 +51,7 @@ import Router, {
 } from 'focus-router';
 ```
 
-## Documentation
-
-### `defineRoute(name, path, component, layout)`
+## `defineRoute(name, path, component, layout)`
 
 ```javascript
 import { defineRoute } from 'focus-router';
@@ -88,7 +81,7 @@ const App = () => (
 );
 ```
 
-### `createLink(routeName, params, queryParams)`
+## `createLink(routeName, params, queryParams)`
 
 ``` javascript
 import { createLink } from 'focus-router';'
@@ -100,7 +93,7 @@ Not generally needed, but it returns a URL that can be navigated to. This can be
 - `params` *(Object, optional)* params to be placed into the path specified in the route matching the route name
 - `queryParams` *(Object, optional)* params to be placed in the `?` at the end the URL
 
-### `useRouteName()`
+## `useRouteName()`
 
 ``` javascript
 import { useRouteName } from 'focus-router';'
@@ -108,7 +101,7 @@ import { useRouteName } from 'focus-router';'
 
 Returns the name *(String)* of the currently presented route.
 
-### `useUnsavedChanges(active, callback)`
+## `useUnsavedChanges(active, callback)`
 
 ``` javascript
 import { useUnsavedChanges } from 'focus-router';'
@@ -117,13 +110,13 @@ import { useUnsavedChanges } from 'focus-router';'
 - `active` *(Boolean, default = true)* will cause navigating away from the current URL (such as clicking a link or using the back button) to be ignored. When the stack is exhausted, the browser's native Save Changes modal will be presented.
 - `callback` *(Function, optional)* is called when an action has been prevented.
 
-### `navigation`
+## `navigation`
 
 ``` javascript
 import { navigation } from 'focus-router';'
 ```
 
-### `navigation.go(target, params, queryParams, opts)`
+## `navigation.go(target, params, queryParams, opts)`
 
 - `target` *(String)* may be a path or a route name to navigate to. If it begins with a slash, it is considered a path, and will be navigated to without care as to params or queryParams. If it is a route name, a path will be formed from the route name, params, and queryParams internally and then navigated to.
 
@@ -132,15 +125,15 @@ import { navigation } from 'focus-router';'
     - `{replaceState: true}` will replace the state, instead of adding to the state history.
     - `{scrollToTop: false}` will maintain the scroll position across navigations.
 
-### `navigation.setParams(params, opts)`
+## `navigation.setParams(params, opts)`
 
 Shortcut for `navigation.go`, only changes the params *(Object)*.
 
-### `navigation.setQueryParams(params, opts)`
+## `navigation.setQueryParams(params, opts)`
 
 Shortcut for `navigation.go`, only changes the query params *(Object)*.
 
-### `useParam(key, defaultValue)`
+## `useParam(key, defaultValue)`
 
 ``` javascript
 import { useParam } from 'focus-router';'
@@ -148,7 +141,7 @@ import { useParam } from 'focus-router';'
 const [selected, setSelected] = useParam('selected');
 ```
 
-### `useQueryParam(key, defaultValue)`
+## `useQueryParam(key, defaultValue)`
 
 ``` javascript
 import { useQueryParam } from 'focus-router';'
