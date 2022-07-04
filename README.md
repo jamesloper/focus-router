@@ -76,15 +76,23 @@ Here is an example app!
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import Router, { defineRoute } from 'focus-router';
-import Home from './imports/pages/Home';
-import Login from './imports/pages/Login';
+
+const Home () => {
+  return <div>home</div>
+};
+
+const About () => {
+  return <div>about</div>
+};
 
 defineRoute('Home', '/', Home);
-defineRoute('Login', '/login', Login);
+defineRoute('About', '/about', About);
 
 const App = () => (
   <div>
     <h1>Hello World</h1>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
     <Router/>
   </div>
 );
