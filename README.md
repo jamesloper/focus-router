@@ -135,20 +135,20 @@ import { useUnsavedChanges } from 'focus-router';'
 import { navigation } from 'focus-router';'
 ```
 
-## `navigation.go(target, params, queryParams, opts)`
+### `navigation.go(target, params, queryParams, opts)`
 
-- `target` *(String)* may be a path or a route name to navigate to. If it begins with a slash, it is considered a path, and will be navigated to without care as to params or queryParams. If it is a route name, a path will be formed from the route name, params, and queryParams internally and then navigated to.
+- `target` *(String)* can be a path or a route name to navigate to. If it begins with a slash, it is considered a path, and will be navigated to without care as to params or queryParams. If it is a route name, a path will be formed from the route name, params, and queryParams internally and then navigated to.
 
 - `opts` *(Object)* are some navigation options, which are `replaceState` (defaults to false) and `scrollToTop` (defaults to true).
 
     - `{replaceState: true}` will replace the state, instead of adding to the state history.
     - `{scrollToTop: false}` will maintain the scroll position across navigations.
 
-## `navigation.setParams(params, opts)`
+### `navigation.setParams(params, opts)`
 
 Shortcut for `navigation.go`, only changes the params *(Object)*.
 
-## `navigation.setQueryParams(params, opts)`
+### `navigation.setQueryParams(params, opts)`
 
 Shortcut for `navigation.go`, only changes the query params *(Object)*.
 
