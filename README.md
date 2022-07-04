@@ -4,7 +4,7 @@
 
 **This router is the most golfed router ever made, but it's also no slouch!** Focus Router is used across all my companies (and one has multi-million dollar revenue), and is in use in 4 personal projects.
 
-## The Focus Router Mission
+# The Focus Router Mission
 
 While other routers have `<Route/>`, focus-router is a 100% static router. This means routes can be defined outside of React, and this provides some excellent advantages.
 
@@ -24,19 +24,19 @@ createRoot(document.getElementById('root')).render(<Router/>);
 
 Aside from simplicity, focus router has a better feature set than React Router (55KB), yet is smaller than Wouter (1.5KB). Both suffer from a lack of focus (on the right things), which is why this router exists!
 
-### Opinionated, Thorough and Handy
+# Opinionated, Thorough and Handy
 
 1. *Opinionated:* Automatically binds `<a>` tags.
 2. *Thorough:* Supports disabling navigation with `useUnsavedChanges()`
 3. *Handy:* You can instantly swap a `useState` for `useParam` or `useQueryParam` to move the state to history-backed global state.
 
-## Install
+# Install
 
 ```bash
 npm install focus-router
 ```
 
-## Documentation
+# Documentation
 
 ``` javascript
 import Router, { 
