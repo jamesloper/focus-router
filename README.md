@@ -112,9 +112,11 @@ import { createLink } from 'focus-router';
 
 Not generally needed, but it returns a URL that can be navigated to. This can be useful to create a dynamic A tag, or to dynamically go to different places depending on some user actions. `params` and `queryParams` are encoded within the string.
 
-- `routeName` *(String)* must match a route name from a `defineRoute()`.
-- `params` *(Object, optional)* params to be placed into the path specified in the route matching the route name
-- `queryParams` *(Object, optional)* params to be placed in the `?` at the end the URL
+| Argument       | Type               | Description                                                                      |
+|----------------|--------------------|----------------------------------------------------------------------------------|
+| `routeName`    | String, (Required) | must match a route name from a `defineRoute()`.                                  |
+| `params`       | Object, (Optional) | params to be placed into the path specified in the route matching the route name |
+| `queryParams`  | Object, (Optional) | params to be placed in the `?` at the end the URL                                |
 
 ## `useRouteName()`
 
@@ -130,8 +132,10 @@ Returns the name *(String)* of the currently presented route.
 import { useUnsavedChanges } from 'focus-router';
 ```
 
-- `active` *(Boolean, default = true)* will cause navigating away from the current URL (such as clicking a link or using the back button) to be ignored. When the stack is exhausted, the browser's native Save Changes modal will be presented.
-- `callback` *(Function, optional)* is called when an action has been prevented.
+| Prop          | Type                 | Description                                                                                                                                                                                               |
+|---------------|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `active`      | Boolean, (Optional)  | will cause navigating away from the current URL (such as clicking a link or using the back button) to be ignored. When the stack is exhausted, the browser's native Save Changes modal will be presented. |
+| `callback`    | Function, (Optional) | is called when an action has been prevented                                                                                                                                                               |
 
 ## `navigation`
 
@@ -141,12 +145,13 @@ import { navigation } from 'focus-router';
 
 ### `navigation.go(target, params, queryParams, opts)`
 
-- `target` *(String)* can be a path or a route name to navigate to. If it begins with a slash, it is considered a path, and will be navigated to without care as to params or queryParams. If it is a route name, a path will be formed from the route name, params, and queryParams internally and then navigated to.
+| Prop     | Type                | Description                                                                                                                                                                                                                                                                                     |
+|----------|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `target` | Boolean, (Optional) | can be a path or a route name to navigate to. If it begins with a slash, it is considered a path, and will be navigated to without care as to params or queryParams. If it is a route name, a path will be formed from the route name, params, and queryParams internally and then navigated to. |
+| `opts`   | Object, (Optional)  | navigation options, which are `replaceState` (defaults to false) and `scrollToTop` (defaults to true).                                                                                                                                                                                          |
 
-- `opts` *(Object)* are some navigation options, which are `replaceState` (defaults to false) and `scrollToTop` (defaults to true).
-
-    - `{replaceState: true}` will replace the state, instead of adding to the state history.
-    - `{scrollToTop: false}` will maintain the scroll position across navigations.
+- `{replaceState: true}` will replace the state, instead of adding to the state history.
+- `{scrollToTop: false}` will maintain the scroll position across navigations.
 
 ### `navigation.setParams(params, opts)`
 
