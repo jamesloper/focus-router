@@ -2,7 +2,7 @@
 <img src="https://jamesloper.com/assets/focus.png" height="92" alt="Focus Router"/>
 </center>
 
-**This router is the most golfed router ever made, but it's also no slouch!** Focus Router is used across all my companies (and one has multi-million dollar revenue), and is in use in 4 personal projects. Focus Router's goal is to be opinionated, thorough, and handy. 
+**This router is the most golfed router ever made, but it's also no slouch!** Focus Router is used across all my companies (and one has multi-million dollar revenue), and is in use in 4 personal projects. Focus Router's goal is to be opinionated, thorough, and handy.
 
 # The Mission
 
@@ -58,11 +58,19 @@ You can put a bunch of these next to each other to define all the routes. You ca
 | component | Component *(Required)* | Component to render                                                                                                                  |
 | layout    | Component *(Optional)* | Component to wrap the component with                                                                                                 |
 
-## `<Route/>`
+## Render the active route
+
+```javascript
+import Router from 'focus-router';
+```
+
+```javascript
+<Route/>
+```
 
 This component will simply render the component for whichever route is active.
 
-Here is an example app!
+Putting these two together, here is an example app!
 
 ```javascript
 import React from 'react';
