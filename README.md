@@ -2,9 +2,9 @@
 <img src="https://jamesloper.com/assets/focus.png" height="92" alt="Focus Router"/>
 </center>
 
-**This router is the most golfed router ever made, but it's also no slouch!** Focus Router is used across all my companies (and one has multi-million dollar revenue), and is in use in 4 personal projects.
+**This router is the most golfed router ever made, but it's also no slouch!** Focus Router is used across all my companies (and one has multi-million dollar revenue), and is in use in 4 personal projects. Focus Router's goal is to be opinionated, thorough, and handy. 
 
-# The Focus Router Mission
+# The Mission
 
 While other routers have routes defined in `<Route/>` tags, Focus Router routes are be defined outside of React, and this provides some excellent advantages.
 
@@ -24,9 +24,10 @@ createRoot(document.getElementById('root')).render(<Router/>);
 
 Aside from simplicity, Focus Router has a better feature set than React Router (55 KB), yet is smaller than Wouter (1.5 KB). Both suffer from a lack of focus (on the right things), which is why this router exists!
 
-1. *Opinionated:* No need to use `<Link/>`. Just use plain `<a>`tags.
-2. *Thorough:* Supports an omission from nearly all libraries, disabling navigation with `useUnsavedChanges()`
-3. *Handy:* You can instantly swap a `useState` for `useParam` or `useQueryParam` to move the state to history-backed global state.
+1. No need to use `<Link/>`. Just use plain `<a>`tags
+2. Swap `useState` for `useParam` or `useQueryParam` to use a browser history-backed global state
+3. Supports an omission from nearly all libraries, disabling navigation with `useUnsavedChanges()`
+4. Minimal re-renders and maximum micro-optimization
 
 # Install
 
@@ -36,22 +37,23 @@ npm install focus-router
 
 # Documentation
 
-Let's jump in to documentation by going over the most important bits first.
+Let's jump in to documentation by going over the most important function first.
 
-## `defineRoute(name, path, component, layout)`
+## Route Definition
 
 ```javascript
 import { defineRoute } from 'focus-router';
+defineRoute(name, path, component, layout);
 ```
 
 You can put a bunch of these next to each other to define all the routes. You can put these at the root level, I like to put them in App.js (CRA) or main.js (Meteor). Focus Router will prioritize higher routes first when matching.
 
-| Name      | Type      | Description                                                                                                  |
-|-----------|-----------|--------------------------------------------------------------------------------------------------------------|
-| name      | String    | A unique name for the route. Can be passed as the first argument to `navigation.go()`                        |
-| path      | String    | A pattern to be used to match the requested route name. Very similar to path-to-regex but without the regex! |
-| component | Component | React Component to render (not React element)                                                                |
-| layout    | Component | Component to wrap the component in                                                                           |
+| Name      | Type                   | Description                                                                                                                          |
+|-----------|------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| name      | String *(Required)*    | A unique name for the route. Can be passed as the first argument to `navigation.go()`                                                |
+| path      | String *(Required)*    | A pattern to be used to match the requested route name. Similar to path-to-regex but without the regex! For example "/blog/post/:id" |
+| component | Component *(Required)* | Component to render                                                                                                                  |
+| layout    | Component *(Optional)* | Component to wrap the component with                                                                                                 |
 
 ## `<Route/>`
 
