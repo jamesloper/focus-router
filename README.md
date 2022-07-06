@@ -43,6 +43,9 @@ Let's jump in to documentation by going over the most important function first.
 
 ```javascript
 import { defineRoute } from 'focus-router';
+```
+
+```javascript
 defineRoute(name, path, component, layout);
 ```
 
