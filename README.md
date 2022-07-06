@@ -104,10 +104,14 @@ const App = () => (
 createRoot(document.getElementById('root')).render(<App/>);
 ```
 
-## `createLink(routeName, params, queryParams)`
+## Create Link
 
 ``` javascript
 import { createLink } from 'focus-router';
+```
+
+```javascript
+createLink(routeName, params, queryParams)
 ```
 
 Not generally needed, but it returns a URL that can be navigated to. This can be useful to create a dynamic A tag, or to dynamically go to different places depending on some user actions. `params` and `queryParams` are encoded within the string.
@@ -118,18 +122,26 @@ Not generally needed, but it returns a URL that can be navigated to. This can be
 | `params`       | Object, (Optional) | params to be placed into the path specified in the route matching the route name |
 | `queryParams`  | Object, (Optional) | params to be placed in the `?` at the end the URL                                |
 
-## `useRouteName()`
+## Use Route Name
 
 ``` javascript
 import { useRouteName } from 'focus-router';
 ```
 
+``` javascript
+useRouteName()
+```
+
 Returns the name *(String)* of the currently presented route.
 
-## `useUnsavedChanges(active, callback)`
+## Prevent Navigation
 
 ``` javascript
 import { useUnsavedChanges } from 'focus-router';
+```
+
+``` javascript
+useUnsavedChanges(active, callback)
 ```
 
 | Prop          | Type                 | Description                                                                                                                                                                                               |
@@ -137,13 +149,15 @@ import { useUnsavedChanges } from 'focus-router';
 | `active`      | Boolean, (Optional)  | will cause navigating away from the current URL (such as clicking a link or using the back button) to be ignored. When the stack is exhausted, the browser's native Save Changes modal will be presented. |
 | `callback`    | Function, (Optional) | is called when an action has been prevented                                                                                                                                                               |
 
-## `navigation`
+## Navigation
 
 ``` javascript
 import { navigation } from 'focus-router';
 ```
 
-### `navigation.go(target, params, queryParams, opts)`
+``` javascript
+navigation.go(target, params, queryParams, opts)
+```
 
 | Prop     | Type                | Description                                                                                                                                                                                                                                                                                     |
 |----------|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -153,27 +167,43 @@ import { navigation } from 'focus-router';
 - `{replaceState: true}` will replace the state, instead of adding to the state history.
 - `{scrollToTop: false}` will maintain the scroll position across navigations.
 
-### `navigation.setParams(params, opts)`
+``` javascript
+navigation.setParams(params, opts)
+```
 
 Shortcut for `navigation.go`, only changes the params *(Object)*.
 
-### `navigation.setQueryParams(params, opts)`
+``` javascript
+navigation.setQueryParams(params, opts)
+```
 
 Shortcut for `navigation.go`, only changes the query params *(Object)*.
 
-## `useParam(key, defaultValue)`
+## URL Params
 
 ``` javascript
 import { useParam } from 'focus-router';
+```
 
+```javascript
+useParam(key, defaultValue)
+```
+
+#### Example
+
+```javascript
 const [selected, setSelected] = useParam('selected');
 ```
 
-## `useQueryParam(key, defaultValue)`
+## URL Query Params
 
 ``` javascript
 import { useQueryParam } from 'focus-router';
+```
 
+#### Example
+
+```javascript
 const [search, setSearch] = useQueryParam('search');
 ```
 
