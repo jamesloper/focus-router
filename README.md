@@ -87,12 +87,16 @@ const About () => {
 
 defineRoute('Home', '/', Home);
 defineRoute('About', '/about', About);
+defineRoute('NotFound', '*', () => {
+  return <div>not found</div>
+});
 
 const App = () => (
   <div>
     <h1>Hello World</h1>
     <a href="/">Home</a>
     <a href="/about">About</a>
+    <a href="/test">Not Found</a>
     <Router/>
   </div>
 );

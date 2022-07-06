@@ -26,13 +26,16 @@ export const defineRoute = (name, path, component, layout = Fragment) => {
 		component,
 		layout,
 		patterns,
-		'test': (to) => split(to).every((part, i) => {
-			if (!(i in patterns)) return false;
-			const pattern = patterns[i];
-			if (pattern.startsWith(':')) return !pattern.endsWith('?'); // param match
-			return (part === pattern); // text match
-		}),
-		'createPath': (params = {}) => patterns.map(pattern => {
+		'test': (to) => {
+			if (path === '*') return true;
+			return split(to).every((part, i) => {
+				if (!(i in patterns)) return false;
+				const pattern = patterns[i];
+				if (pattern.startsWith(':')) return !pattern.endsWith('?'); // param match
+				return (part === pattern); // text match
+			});
+		},
+		'createPath': (params = {}) => '/' + patterns.map(pattern => {
 			if (pattern.startsWith(':')) return params[pattern.slice(1)];
 			return pattern;
 		}).join('/'),
@@ -44,10 +47,7 @@ export const defineRoute = (name, path, component, layout = Fragment) => {
 };
 
 const changeRoute = () => {
-	if (!canNavigate) {
-		console.log('Attempting to restore previous path!', pathStore.state);
-		return history.pushState(null, null, pathStore.state);
-	}
+	if (!canNavigate) return history.pushState(null, null, pathStore.state);
 	const route = routes.find(r => r.test(location.pathname));
 	if (route) setRoute(route);
 };
@@ -74,7 +74,7 @@ export const useRouteName = () => routeStore.use().name;
 export const useParam = (key, fallback) => {
 	const params = paramStore.use();
 	return [
-		(key in params) ? key : fallback,
+		(key in params) ? params[key] : fallback,
 		(val, opts) => navigation.setParams({[key]: val}, opts),
 	];
 };
@@ -82,17 +82,18 @@ export const useParam = (key, fallback) => {
 export const useQueryParam = (key, fallback) => {
 	const params = queryParamStore.use();
 	return [
-		key in params ? key : fallback,
+		(key in params) ? params[key] : fallback,
 		(val, opts) => navigation.setQueryParams({[key]: val}, opts),
 	];
 };
 
+const preventDefault = e => {
+	e.preventDefault();
+	e.returnValue = '';
+};
+
 export const useUnsavedChanges = (active) => {
 	useEffect(() => {
-		const preventDefault = e => {
-			e.preventDefault();
-			e.returnValue = '';
-		};
 		if (active) window.addEventListener('beforeunload', preventDefault);
 		return () => window.removeEventListener('beforeunload', preventDefault);
 	}, [active]);
@@ -105,11 +106,8 @@ export const useUnsavedChanges = (active) => {
 
 export const navigation = {
 	go(target, params = {}, queryParams = {}, opts = {}) {
-		if (target.startsWith('/')) {
-			navigate(target, opts);
-		} else {
-			navigate(createLink(target, params, queryParams), opts);
-		}
+		if (target.startsWith('/')) return navigate(target, opts);
+		navigate(createLink(target, params, queryParams), opts);
 	},
 	setParams(params, opts) {
 		navigate(routeStore.state.createPath(params) + location.search, opts);
@@ -135,9 +133,11 @@ export default Router;
 
 // Initialize the link handler
 document.addEventListener('click', e => {
+	if (e.metaKey || e.ctrlKey || e.defaultPrevented) return;
+
+	e.preventDefault();
 	const link = e.composedPath().find(el => el.tagName === 'A');
 	if (link && link.hostname === location.hostname) {
-		console.log('NAV TIME', location.hostname);
 		e.preventDefault();
 		navigate(link.pathname);
 	}
