@@ -45,11 +45,11 @@ Let's jump in to documentation by going over the most important function first.
 import { defineRoute } from 'focus-router';
 ```
 
+You can put a bunch of these next to each other to define all the routes. You can put these at the root level, I like to put them in App.js (CRA) or main.js (Meteor). Focus Router will prioritize higher routes first when matching.
+
 ```javascript
 defineRoute(name, path, component, layout);
 ```
-
-You can put a bunch of these next to each other to define all the routes. You can put these at the root level, I like to put them in App.js (CRA) or main.js (Meteor). Focus Router will prioritize higher routes first when matching.
 
 | Name      | Type                   | Description                                                                                                                          |
 |-----------|------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
@@ -137,13 +137,17 @@ import { useParam } from 'focus-router';
 ```
 
 ```javascript
-useParam(key, defaultValue)
+useParam(key)
 ```
+
+| Argument       | Type               | Description                                   |
+|----------------|--------------------|-----------------------------------------------|
+| `key`          | String, (Required) | The name of the param to extract from the URL |
 
 #### Example
 
 ```javascript
-const [selected, setSelected] = useParam('selected');
+const [id, setId] = useParam('id');
 ```
 
 ## URL Query Params
@@ -155,8 +159,13 @@ import { useQueryParam } from 'focus-router';
 #### Example
 
 ```javascript
-const [search, setSearch] = useQueryParam('search');
+const [search, setSearch] = useQueryParam('search', '');
 ```
+
+| Argument       | Type               | Description                                              |
+|----------------|--------------------|----------------------------------------------------------|
+| `key`          | String, (Required) | The name of the param to extract from the end of the URL |
+| `defaultValue` | String, (Optional) | A value to return if the key is not present in the URL   |
 
 ## Create Link
 
