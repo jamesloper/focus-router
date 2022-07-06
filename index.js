@@ -139,6 +139,6 @@ document.addEventListener('click', e => {
 	const link = e.composedPath().find(el => el.tagName === 'A');
 	if (link && link.hostname === location.hostname) {
 		e.preventDefault();
-		navigate(link.pathname);
+		navigate(link.href);
 	}
 });
