@@ -58,14 +58,10 @@ You can put a bunch of these next to each other to define all the routes. You ca
 | component | Component *(Required)* | Component to render                                                                                                                  |
 | layout    | Component *(Optional)* | Component to wrap the component with                                                                                                 |
 
-## Render the active route
+## Router React Component
 
 ```javascript
 import Router from 'focus-router';
-```
-
-```javascript
-<Route/>
 ```
 
 This component will simply render the component for whichever route is active.
@@ -168,22 +164,18 @@ const [search, setSearch] = useQueryParam('search');
 import { createLink } from 'focus-router';
 ```
 
-Not generally needed, but it returns a URL that can be navigated to. This can be useful to create a dynamic A tag, or to dynamically go to different places depending on some user actions. `params` and `queryParams` are encoded within the string.
+Returns a URL that can be navigated to. This can be useful to create a dynamic `<a>` tag, or to dynamically go to different routes. `params` and `queryParams` are encoded within the string.
 
 | Argument       | Type               | Description                                                                      |
 |----------------|--------------------|----------------------------------------------------------------------------------|
 | `routeName`    | String, (Required) | must match a route name from a `defineRoute()`.                                  |
 | `params`       | Object, (Optional) | params to be placed into the path specified in the route matching the route name |
-| `queryParams`  | Object, (Optional) | params to be placed in the `?` at the end the URL                                |
+| `queryParams`  | Object, (Optional) | params to be placed after a `?` at the end the URL                               |
 
 ## Use Route Name
 
 ``` javascript
 import { useRouteName } from 'focus-router';
-```
-
-``` javascript
-useRouteName()
 ```
 
 Returns the name *(String)* of the currently presented route.
@@ -194,14 +186,12 @@ Returns the name *(String)* of the currently presented route.
 import { useUnsavedChanges } from 'focus-router';
 ```
 
-``` javascript
-useUnsavedChanges(active, callback)
-```
+Using this will cause navigating away from the current URL (such as clicking a link or using the back button) to be ignored. When the stack is empty, the browser's native Save Changes modal will be presented.
 
-| Prop          | Type                 | Description                                                                                                                                                                                               |
-|---------------|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `active`      | Boolean, (Optional)  | will cause navigating away from the current URL (such as clicking a link or using the back button) to be ignored. When the stack is exhausted, the browser's native Save Changes modal will be presented. |
-| `callback`    | Function, (Optional) | is called when an action has been prevented                                                                                                                                                               |
+| Prop          | Type                 | Description                                    |
+|---------------|----------------------|------------------------------------------------|
+| `active`      | Boolean, (Optional)  | Turns the effect on or off                     |
+| `callback`    | Function, (Optional) | Called when any user action has been prevented |
 
 ## Bonus Utils
 
