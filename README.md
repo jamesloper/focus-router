@@ -104,51 +104,6 @@ const App = () => (
 createRoot(document.getElementById('root')).render(<App/>);
 ```
 
-## Create Link
-
-``` javascript
-import { createLink } from 'focus-router';
-```
-
-```javascript
-createLink(routeName, params, queryParams)
-```
-
-Not generally needed, but it returns a URL that can be navigated to. This can be useful to create a dynamic A tag, or to dynamically go to different places depending on some user actions. `params` and `queryParams` are encoded within the string.
-
-| Argument       | Type               | Description                                                                      |
-|----------------|--------------------|----------------------------------------------------------------------------------|
-| `routeName`    | String, (Required) | must match a route name from a `defineRoute()`.                                  |
-| `params`       | Object, (Optional) | params to be placed into the path specified in the route matching the route name |
-| `queryParams`  | Object, (Optional) | params to be placed in the `?` at the end the URL                                |
-
-## Use Route Name
-
-``` javascript
-import { useRouteName } from 'focus-router';
-```
-
-``` javascript
-useRouteName()
-```
-
-Returns the name *(String)* of the currently presented route.
-
-## Prevent Navigation
-
-``` javascript
-import { useUnsavedChanges } from 'focus-router';
-```
-
-``` javascript
-useUnsavedChanges(active, callback)
-```
-
-| Prop          | Type                 | Description                                                                                                                                                                                               |
-|---------------|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `active`      | Boolean, (Optional)  | will cause navigating away from the current URL (such as clicking a link or using the back button) to be ignored. When the stack is exhausted, the browser's native Save Changes modal will be presented. |
-| `callback`    | Function, (Optional) | is called when an action has been prevented                                                                                                                                                               |
-
 ## Navigation
 
 ``` javascript
@@ -206,6 +161,47 @@ import { useQueryParam } from 'focus-router';
 ```javascript
 const [search, setSearch] = useQueryParam('search');
 ```
+
+## Create Link
+
+``` javascript
+import { createLink } from 'focus-router';
+```
+
+Not generally needed, but it returns a URL that can be navigated to. This can be useful to create a dynamic A tag, or to dynamically go to different places depending on some user actions. `params` and `queryParams` are encoded within the string.
+
+| Argument       | Type               | Description                                                                      |
+|----------------|--------------------|----------------------------------------------------------------------------------|
+| `routeName`    | String, (Required) | must match a route name from a `defineRoute()`.                                  |
+| `params`       | Object, (Optional) | params to be placed into the path specified in the route matching the route name |
+| `queryParams`  | Object, (Optional) | params to be placed in the `?` at the end the URL                                |
+
+## Use Route Name
+
+``` javascript
+import { useRouteName } from 'focus-router';
+```
+
+``` javascript
+useRouteName()
+```
+
+Returns the name *(String)* of the currently presented route.
+
+## Prevent Navigation
+
+``` javascript
+import { useUnsavedChanges } from 'focus-router';
+```
+
+``` javascript
+useUnsavedChanges(active, callback)
+```
+
+| Prop          | Type                 | Description                                                                                                                                                                                               |
+|---------------|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `active`      | Boolean, (Optional)  | will cause navigating away from the current URL (such as clicking a link or using the back button) to be ignored. When the stack is exhausted, the browser's native Save Changes modal will be presented. |
+| `callback`    | Function, (Optional) | is called when an action has been prevented                                                                                                                                                               |
 
 ## Bonus Utils
 
