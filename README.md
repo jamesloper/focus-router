@@ -147,7 +147,7 @@ useParam(key)
 #### Example
 
 ```javascript
-const [id, setId] = useParam('id');
+const id = useParam('id', null);
 ```
 
 ## URL Query Params
@@ -159,7 +159,7 @@ import { useQueryParam } from 'focus-router';
 #### Example
 
 ```javascript
-const [search, setSearch] = useQueryParam('search', '');
+const search = useQueryParam('search', '');
 ```
 
 | Argument       | Type               | Description                                              |

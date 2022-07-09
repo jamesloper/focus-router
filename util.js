@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 
+export const range = count => Array.from(Array(count).keys());
+
 export const split = path => path.split('/').slice(1);
 
 export const parseQueryString = str => Object.fromEntries(new URLSearchParams(str));
 
 export const encodeQueryString = (obj = {}) => {
 	const res = new URLSearchParams();
-	for (let key in obj) res.set(key, obj[key]);
+	for (let key in obj) if (obj[key] !== null) res.set(key, obj[key]);
 	return res.toString();
 };
 
@@ -18,7 +20,10 @@ export const encodeSearchString = (obj) => {
 export const parsePathParams = (route, pathname) => {
 	const parts = split(pathname);
 	return route.patterns.reduce((res, pattern, i) => {
-		if (pattern.startsWith(':')) res[pattern.slice(1)] = parts[i];
+		if (pattern.startsWith(':')) {
+			const end = pattern.endsWith('?') ? -1 : Infinity;
+			res[pattern.slice(1, end)] = parts[i];
+		}
 		return res;
 	}, {});
 };

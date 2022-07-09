@@ -1,5 +1,5 @@
 import React, { Fragment, createElement, useEffect } from 'react';
-import { createBus, encodeSearchString, parsePathParams, parseQueryString, split } from './util';
+import { createBus, encodeSearchString, parsePathParams, parseQueryString, split, range } from './util';
 
 let canNavigate = true;
 
@@ -31,8 +31,9 @@ export const defineRoute = (name, path, component, layout = Fragment) => {
 			return split(to).every((part, i) => {
 				if (!(i in patterns)) return false;
 				const pattern = patterns[i];
-				if (pattern.startsWith(':')) return !pattern.endsWith('?'); // param match
-				return (part === pattern); // text match
+				if (pattern.endsWith('?')) return true;
+				if (pattern.startsWith(':')) return true; // param
+				return (part === pattern); // slug
 			});
 		},
 		'createPath': (params = {}) => '/' + patterns.map(pattern => {
@@ -73,18 +74,12 @@ export const useRouteName = () => routeStore.use().name;
 
 export const useParam = (key, fallback) => {
 	const params = paramStore.use();
-	return [
-		(key in params) ? params[key] : fallback,
-		(val, opts) => navigation.setParams({[key]: val}, opts),
-	];
+	return (key in params) ? params[key] : fallback;
 };
 
 export const useQueryParam = (key, fallback) => {
 	const params = queryParamStore.use();
-	return [
-		(key in params) ? params[key] : fallback,
-		(val, opts) => navigation.setQueryParams({[key]: val}, opts),
-	];
+	return (key in params) ? params[key] : fallback;
 };
 
 const preventDefault = e => {
@@ -92,7 +87,7 @@ const preventDefault = e => {
 	e.returnValue = '';
 };
 
-export const useUnsavedChanges = (active) => {
+export const useUnsavedChanges = (active, callback) => {
 	useEffect(() => {
 		if (active) window.addEventListener('beforeunload', preventDefault);
 		return () => window.removeEventListener('beforeunload', preventDefault);
@@ -126,7 +121,7 @@ export const navigation = {
 const Router = () => {
 	const route = routeStore.use();
 	if (!route) return null;
-	return createElement(route.layout, null, createElement(route.component, {navigation}));
+	return createElement(route.layout, null, createElement(route.component));
 };
 
 export default Router;
@@ -135,7 +130,6 @@ export default Router;
 document.addEventListener('click', e => {
 	if (e.metaKey || e.ctrlKey || e.defaultPrevented) return;
 
-	e.preventDefault();
 	const link = e.composedPath().find(el => el.tagName === 'A');
 	if (link && link.hostname === location.hostname) {
 		e.preventDefault();
