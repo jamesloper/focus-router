@@ -26,12 +26,13 @@ export const defineRoute = (name, path, component, layout = Fragment) => {
 		patterns,
 		'test': to => {
 			const splitted = split(to);
+			if (path === '*') return true;
 			if (patterns.length > splitted.length) return false;
 			return splitted.every((part, i) => {
 				if (i in patterns) {
 					const pattern = patterns[i];
-					return (part === pattern || //slug
-						pattern === '*' || // all
+					return (
+						part === pattern || //slug
 						pattern.endsWith('?') || // optional
 						pattern.startsWith(':') // param
 					);
