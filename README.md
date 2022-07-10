@@ -6,7 +6,7 @@
 
 ## About
 
-While other routers have routes defined in `<Route/>` tags, Focus Router routes are be defined outside of React, and this provides some excellent advantages.
+While other routers have routes defined in `<Route/>` tags, Focus Router routes are defined outside of React, and this provides some excellent advantages.
 
 ## Example
 
@@ -24,11 +24,11 @@ defineRoute('HomePage', '/', () => (
 createRoot(document.getElementById('root')).render(<Router/>);
 ```
 
-Aside from simplicity, Focus Router has a better feature set than React Router (55 KB), yet is smaller than Wouter (1.5 KB). Both suffer from a lack of focus (on the right things), which is why this router exists!
+Aside from simplicity, Focus Router has a fuller feature set than React Router (55 KB) which suffers from a lack of focus, which is why this router exists!
 
 1. No need to use `<Link/>`. Just use plain `<a>`tags
 2. Swap `useState` for `useParam` or `useQueryParam` to use a browser history-backed global state
-3. Supports an omission from nearly all libraries, disabling navigation with `useUnsavedChanges()`
+3. Supports an omission from nearly all routers-- disabling navigation with `useUnsavedChanges()`
 4. Minimal re-renders and maximum micro-optimization
 
 # Install
@@ -47,7 +47,7 @@ Let's jump in to documentation by going over the most important function first.
 import { defineRoute } from 'focus-router';
 ```
 
-You can put a bunch of these next to each other to define all the routes. You can put these at the root level, I like to put them in App.js (CRA) or main.js (Meteor). Focus Router will prioritize higher routes first when matching.
+You can put a bunch of these next to each other to define all the routes. You can put these at the root level, even in the same file as `createRoot`. Focus Router will prioritize higher routes first when matching.
 
 ```javascript
 defineRoute(name, path, component, layout);
@@ -59,6 +59,12 @@ defineRoute(name, path, component, layout);
 | path      | String *(Required)*    | A pattern to be used to match the requested route name. Similar to path-to-regex but without the regex! For example "/blog/post/:id" |
 | component | Component *(Required)* | Component to render                                                                                                                  |
 | layout    | Component *(Optional)* | Component to wrap the component with                                                                                                 |
+
+You can re-use concepts from other routers based on [path-to-regexp](https://www.npmjs.com/package/path-to-regexp) such as React Router, React Navigation and FlowRouter. For example the following paths are all valid:
+
+- `"/blog/:postId"`
+- `"/search/:term?"`
+- `"*"`
 
 ## Router React Component
 
