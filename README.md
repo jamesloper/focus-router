@@ -1,12 +1,12 @@
 <p align="center">
-<img src="https://jamesloper.com/assets/focus.png" height="92" alt="Focus Router"/>
+<img src="https://jamesloper.com/assets/focus.png" height="110" alt="Focus Router"/>
 </p>
 
-**This router is the most golfed router ever made, and it's no slouch!** Focus Router is used across all my companies (and one has multi-million dollar revenue). Focus Router's goal is to be opinionated, thorough, and handy.
+**A router for React.** This is the most golfed router ever made, and it's no slouch! Focus Router is used across all my companies (one with multi-million dollar revenue). Focus Router's goal is to be opinionated, thorough, and handy.
 
 ## About
 
-While other routers have routes defined in `<Route/>` tags, Focus Router routes are defined outside of React, and this provides some excellent advantages.
+Most React routers have routes defined in `<Route/>` tags... This is probably a mistake as routes exist outside of React and this would be an example of overuse of Components. Focus Router routes are defined outside of React, and this provides some excellent advantages.
 
 ## Example
 
@@ -53,12 +53,12 @@ You can put a bunch of these next to each other to define all the routes. You ca
 defineRoute(name, path, component, layout);
 ```
 
-| Name      | Type                   | Description                                                                                                                          |
-|-----------|------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| name      | String *(Required)*    | A unique name for the route. Can be passed as the first argument to `navigation.go()`                                                |
-| path      | String *(Required)*    | A pattern to be used to match the requested route name. Similar to path-to-regex but without the regex! For example "/blog/post/:id" |
-| component | Component *(Required)* | Component to render                                                                                                                  |
-| layout    | Component *(Optional)* | Component to wrap the component with                                                                                                 |
+| Name      | Type                   | Description                                                                                                        |
+|-----------|------------------------|--------------------------------------------------------------------------------------------------------------------|
+| name      | String *(Required)*    | A unique name for the route. Can be passed as the first argument to `navigation.go()`                              |
+| path      | String *(Required)*    | A pattern such as `/blog`. Navigating to a URL that looks like this pattern will cause the route to become active. |
+| component | Component *(Required)* | A component to render.                                                                                             |
+| layout    | Component *(Optional)* | A component to wrap the component in.                                                                              |
 
 You can re-use concepts from other routers based on [path-to-regexp](https://www.npmjs.com/package/path-to-regexp) such as React Router, React Navigation and FlowRouter. For example the following paths are all valid:
 
@@ -118,10 +118,10 @@ import { navigation } from 'focus-router';
 navigation.go(target, params, queryParams, opts)
 ```
 
-| Prop     | Type                | Description                                                                                                                                                                                                                                                                                      |
-|----------|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `target` | Boolean, (Optional) | Can be a path or a route name to navigate to. If it begins with a slash, it is considered a path, and will be navigated to without care as to params or queryParams. If it is a route name, a path will be formed from the route name, params, and queryParams internally and then navigated to. |
-| `opts`   | Object, (Optional)  | Navigation options, which are `replaceState` (defaults to false) and `scrollToTop` (defaults to true).                                                                                                                                                                                           |
+| Prop     | Type                 | Description                                                                                                                                                                                                                         |
+|----------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `target` | Boolean *(Optional)* | A path or a route name to navigate to. If `target` starts with a slash, it will immediately be navigated to and `params` and `queryParams` are ignored. If target is a `routeName`, a path will be created using all the arguments. |
+| `opts`   | Object *(Optional)*  | Navigation options, which are `replaceState` (defaults to false) and `scrollToTop` (defaults to true).                                                                                                                              |
 
 - `{replaceState: true}` will replace the state, instead of adding to the state history.
 - `{scrollToTop: false}` will maintain the scroll position across navigations.
@@ -190,11 +190,11 @@ import { createLink } from 'focus-router';
 
 Returns a URL that can be navigated to. This can be useful to create a dynamic `<a>` tag, or to dynamically go to different routes. `params` and `queryParams` are encoded within the string.
 
-| Argument       | Type               | Description                                                                      |
-|----------------|--------------------|----------------------------------------------------------------------------------|
-| `routeName`    | String, (Required) | must match a route name from a `defineRoute()`.                                  |
-| `params`       | Object, (Optional) | params to be placed into the path specified in the route matching the route name |
-| `queryParams`  | Object, (Optional) | params to be placed after a `?` at the end the URL                               |
+| Argument       | Type                | Description                                                     |
+|----------------|---------------------|-----------------------------------------------------------------|
+| `routeName`    | String *(Required)* | Must match a route name from a `defineRoute()`.                 |
+| `params`       | Object *(Optional)* | Params to encode into the path corresponding to the `routeName` |
+| `queryParams`  | Object *(Optional)* | Params to encode into the query string                          |
 
 ## Use Route Name
 
@@ -212,10 +212,9 @@ import { useUnsavedChanges } from 'focus-router';
 
 Using this will cause navigating away from the current URL (such as clicking a link or using the back button) to be ignored. When the stack is empty, the browser's native Save Changes modal will be presented.
 
-| Prop          | Type                 | Description                                    |
-|---------------|----------------------|------------------------------------------------|
-| `active`      | Boolean, (Optional)  | Turns the effect on or off                     |
-| `callback`    | Function, (Optional) | Called when any user action has been prevented |
+| Argument | Type                 | Description                                    |
+|----------|----------------------|------------------------------------------------|
+| `active` | Boolean *(Optional)* | Turns the effect on or off                     |
 
 ## Bonus Utils
 
@@ -223,10 +222,12 @@ These handy utils are there if you need them, only because focus router needs th
 
 ```javascript
 import { 
+  createBus, 
+  useBus,
   encodeQueryString, 
   encodeSearchString, 
-  parsePathParams, 
-  createBus, 
-  useBus
+  parsePathParams
 } from 'focus-router/util';
 ```
+
+*tempus fugit*
