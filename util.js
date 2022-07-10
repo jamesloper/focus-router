@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 
-export const range = count => Array.from(Array(count).keys());
-
 export const split = path => path.split('/').slice(1);
 
 export const parseQueryString = str => Object.fromEntries(new URLSearchParams(str));
@@ -24,6 +22,7 @@ export const parsePathParams = (route, pathname) => {
 			const end = pattern.endsWith('?') ? -1 : Infinity;
 			res[pattern.slice(1, end)] = parts[i];
 		}
+		if (pattern === '*') res[i] = parts[i];
 		return res;
 	}, {});
 };
@@ -33,18 +32,21 @@ export const createBus = (defaultState) => {
 	const ref = {
 		state: defaultState,
 		update(newState) {
-			if (ref.state === newState) return;
-			ref.state = newState;
-			listeners.forEach(cb => cb(newState));
+			if (ref.state !== newState) {
+				ref.state = newState;
+				listeners.forEach(cb => cb(newState));
+			}
 		},
-		use() {
-			const [state, setState] = useState(ref.state);
-			useEffect(() => {
-				listeners.push(setState);
-				return () => listeners = listeners.filter(fn => fn !== setState);
-			}, []);
-			return state;
+		on(setState) {
+			listeners.push(setState);
+			return () => listeners = listeners.filter(fn => fn !== setState);
 		},
 	};
 	return ref;
+};
+
+export const useBus = (bus) => {
+	const [state, setState] = useState(bus.state);
+	useEffect(() => bus.on(setState), []);
+	return state;
 };

@@ -1,14 +1,16 @@
-<center>
+<p align="center">
 <img src="https://jamesloper.com/assets/focus.png" height="92" alt="Focus Router"/>
-</center>
+</p>
 
-**This router is the most golfed router ever made, but it's also no slouch!** Focus Router is used across all my companies (and one has multi-million dollar revenue), and is in use in 4 personal projects. Focus Router's goal is to be opinionated, thorough, and handy.
+**This router is the most golfed router ever made, and it's no slouch!** Focus Router is used across all my companies (and one has multi-million dollar revenue). Focus Router's goal is to be opinionated, thorough, and handy.
 
-# The Mission
+## About
 
 While other routers have routes defined in `<Route/>` tags, Focus Router routes are be defined outside of React, and this provides some excellent advantages.
 
-Here is an example of a simple React app which has a Home Page route, demonstrating the radical simplicity and focus of Focus Router.
+## Example
+
+Here is an example of a simple React app which has a Home Page route, demonstrating the focus of Focus Router.
 
 ```javascript
 import React from 'react';
@@ -110,10 +112,10 @@ import { navigation } from 'focus-router';
 navigation.go(target, params, queryParams, opts)
 ```
 
-| Prop     | Type                | Description                                                                                                                                                                                                                                                                                     |
-|----------|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `target` | Boolean, (Optional) | can be a path or a route name to navigate to. If it begins with a slash, it is considered a path, and will be navigated to without care as to params or queryParams. If it is a route name, a path will be formed from the route name, params, and queryParams internally and then navigated to. |
-| `opts`   | Object, (Optional)  | navigation options, which are `replaceState` (defaults to false) and `scrollToTop` (defaults to true).                                                                                                                                                                                          |
+| Prop     | Type                | Description                                                                                                                                                                                                                                                                                      |
+|----------|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `target` | Boolean, (Optional) | Can be a path or a route name to navigate to. If it begins with a slash, it is considered a path, and will be navigated to without care as to params or queryParams. If it is a route name, a path will be formed from the route name, params, and queryParams internally and then navigated to. |
+| `opts`   | Object, (Optional)  | Navigation options, which are `replaceState` (defaults to false) and `scrollToTop` (defaults to true).                                                                                                                                                                                           |
 
 - `{replaceState: true}` will replace the state, instead of adding to the state history.
 - `{scrollToTop: false}` will maintain the scroll position across navigations.
@@ -133,16 +135,23 @@ Shortcut for `navigation.go`, only changes the query params *(Object)*.
 ## URL Params
 
 ``` javascript
+import { useParams } from 'focus-router';
+```
+
+Simply returns all the params in the current path as an object.
+
+``` javascript
 import { useParam } from 'focus-router';
 ```
 
 ```javascript
-useParam(key)
+useParam(key, defaultValue)
 ```
 
-| Argument       | Type               | Description                                   |
-|----------------|--------------------|-----------------------------------------------|
-| `key`          | String, (Required) | The name of the param to extract from the URL |
+| Argument       | Type               | Description                                          |
+|----------------|--------------------|------------------------------------------------------|
+| `key`          | String, (Required) | The name of the param to extract from the URL        |
+| `defaultValue` | String, (Optional) | Value to return if the key is not present in the URL |
 
 #### Example
 
@@ -165,7 +174,7 @@ const search = useQueryParam('search', '');
 | Argument       | Type               | Description                                              |
 |----------------|--------------------|----------------------------------------------------------|
 | `key`          | String, (Required) | The name of the param to extract from the end of the URL |
-| `defaultValue` | String, (Optional) | A value to return if the key is not present in the URL   |
+| `defaultValue` | String, (Optional) | Value to return if the key is not present in the URL     |
 
 ## Create Link
 
@@ -212,5 +221,6 @@ import {
   encodeSearchString, 
   parsePathParams, 
   createBus, 
+  useBus
 } from 'focus-router/util';
 ```

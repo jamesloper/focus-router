@@ -1,9 +1,9 @@
 import React, { Fragment, createElement, useEffect } from 'react';
-import { createBus, encodeSearchString, parsePathParams, parseQueryString, split, range } from './util';
+import { createBus, useBus, encodeSearchString, parsePathParams, parseQueryString, split, range } from './util';
 
 let canNavigate = true;
 
-const routes = [], // When you use <Route/>, this gets filled up
+const routes = [],
 	routeStore = createBus(null),
 	pathStore = createBus(location.pathname + location.search),
 	paramStore = createBus({}),
@@ -17,23 +17,25 @@ const setRoute = route => {
 };
 
 export const defineRoute = (name, path, component, layout = Fragment) => {
-	if (routes.some(r => r.name === name)) return;
-
-	const patterns = split(path); // Looks like ['users', 'bob']
+	const patterns = split(path);
 	const route = {
 		name,
 		path,
 		component,
 		layout,
 		patterns,
-		'test': (to) => {
-			if (path === '*') return true;
-			return split(to).every((part, i) => {
-				if (!(i in patterns)) return false;
-				const pattern = patterns[i];
-				if (pattern.endsWith('?')) return true;
-				if (pattern.startsWith(':')) return true; // param
-				return (part === pattern); // slug
+		'test': to => {
+			const splitted = split(to);
+			if (patterns.length > splitted.length) return false;
+			return splitted.every((part, i) => {
+				if (i in patterns) {
+					const pattern = patterns[i];
+					return (part === pattern || //slug
+						pattern === '*' || // all
+						pattern.endsWith('?') || // optional
+						pattern.startsWith(':') // param
+					);
+				}
 			});
 		},
 		'createPath': (params = {}) => '/' + patterns.map(pattern => {
@@ -57,7 +59,6 @@ window.onpopstate = changeRoute;
 
 const navigate = (to, opts = {}) => {
 	if (!canNavigate) return;
-
 	opts = {'replaceState': false, 'scrollToTop': true, ...opts}; // set defaults for opts
 	history[opts.replaceState ? 'replaceState' : 'pushState'](null, null, to);
 	if (opts.scrollToTop) setTimeout(() => scrollTo(0, 0), 0);
@@ -70,27 +71,28 @@ export const createLink = (routeName, params, queryParams) => {
 	return route.createPath(params) + encodeSearchString(queryParams);
 };
 
-export const useRouteName = () => routeStore.use().name;
+export const useRouteName = () => useBus(routeStore).name;
 
-export const useParam = (key, fallback) => {
-	const params = paramStore.use();
-	return (key in params) ? params[key] : fallback;
+export const useParams = () => useBus(paramStore);
+
+export const useParam = (key, defaultValue) => {
+	const params = useBus(paramStore);
+	return (key in params) ? params[key] : defaultValue;
 };
 
-export const useQueryParam = (key, fallback) => {
-	const params = queryParamStore.use();
-	return (key in params) ? params[key] : fallback;
-};
-
-const preventDefault = e => {
-	e.preventDefault();
-	e.returnValue = '';
+export const useQueryParam = (key, defaultValue) => {
+	const params = useBus(queryParamStore);
+	return (key in params) ? params[key] : defaultValue;
 };
 
 export const useUnsavedChanges = (active, callback) => {
 	useEffect(() => {
-		if (active) window.addEventListener('beforeunload', preventDefault);
-		return () => window.removeEventListener('beforeunload', preventDefault);
+		const preventDefault = e => {
+			e.preventDefault();
+			e.returnValue = '';
+		};
+		if (active) addEventListener('beforeunload', preventDefault);
+		return () => removeEventListener('beforeunload', preventDefault);
 	}, [active]);
 
 	useEffect(() => {
@@ -119,7 +121,7 @@ export const navigation = {
 };
 
 const Router = () => {
-	const route = routeStore.use();
+	const route = useBus(routeStore);
 	if (!route) return null;
 	return createElement(route.layout, null, createElement(route.component));
 };
