@@ -1,4 +1,8 @@
-<p align="center">
+```bash
+npm install focus-router
+```
+
+<p>
 <img src="https://jamesloper.com/assets/focus.png" height="110" alt="Focus Router"/>
 </p>
 
@@ -6,7 +10,7 @@
 
 ## About
 
-Most React routers have routes defined in `<Route/>` tags... This is probably a mistake as routes exist outside of React and this would be an example of overuse of Components. Focus Router routes are defined outside of React, and this provides some excellent advantages.
+Most React routers have routes defined in `<Route/>` tags, however I have come to consider this an overuse of Components. Routes are global and to mesh with this finding, I started writing Focus Router with route definitions made outside of React. Focus Router began to basically write itself, resulting in some very clean code.
 
 ## Example
 
@@ -31,12 +35,6 @@ Aside from simplicity, Focus Router has a fuller feature set than React Router (
 3. Supports an omission from nearly all routers-- disabling navigation with `useUnsavedChanges()`
 4. Minimal re-renders and maximum micro-optimization
 
-# Install
-
-```bash
-npm install focus-router
-```
-
 # Documentation
 
 Let's jump in to documentation by going over the most important function first.
@@ -60,21 +58,21 @@ defineRoute(name, path, component, layout);
 | component | Component *(Required)* | A component to render.                                                                                             |
 | layout    | Component *(Optional)* | A component to wrap the component in.                                                                              |
 
-You can re-use concepts from other routers based on [path-to-regexp](https://www.npmjs.com/package/path-to-regexp) such as React Router, React Navigation and FlowRouter. For example the following paths are all valid:
+You can re-use concepts from other routers based on [path-to-regexp](https://www.npmjs.com/package/path-to-regexp) (eg: React Router, React Navigation and FlowRouter). Although path-to-regexp is not used, the following paths are all still valid when brought forth to Focus Router:
 
 - `"/blog/:postId"`
 - `"/search/:term?"`
 - `"*"`
 
-## Router React Component
+## React Component: `<Router/>`
 
 ```javascript
 import Router from 'focus-router';
 ```
 
-This component will simply render the component for whichever route is active.
+This will simply render the component for whichever route is active.
 
-Putting these two together, here is an example app!
+### Putting these two together, here is an example app...
 
 ```javascript
 import React from 'react';
@@ -108,17 +106,21 @@ const App = () => (
 createRoot(document.getElementById('root')).render(<App/>);
 ```
 
+You can click between routes, use the back button, and navigate to a non-existent page to see the Not Found route.
+
 ## Navigation
 
 ``` javascript
 import { navigation } from 'focus-router';
 ```
 
+You can use `navigation` to navigate programmatically, such as after receiving data from an API, when the user clicks a button, etc. There are multiple functions to facilitate navigation as follows:
+
 ``` javascript
 navigation.go(target, params, queryParams, opts)
 ```
 
-| Prop     | Type                 | Description                                                                                                                                                                                                                         |
+| Argument | Type                 | Description                                                                                                                                                                                                                         |
 |----------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `target` | Boolean *(Optional)* | A path or a route name to navigate to. If `target` starts with a slash, it will immediately be navigated to and `params` and `queryParams` are ignored. If target is a `routeName`, a path will be created using all the arguments. |
 | `opts`   | Object *(Optional)*  | Navigation options, which are `replaceState` (defaults to false) and `scrollToTop` (defaults to true).                                                                                                                              |

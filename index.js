@@ -27,17 +27,15 @@ export const defineRoute = (name, path, component, layout = Fragment) => {
 		'test': to => {
 			const splitted = split(to);
 			if (path === '*') return true;
-			if (patterns.length > splitted.length) return false;
-			return splitted.every((part, i) => {
-				if (i in patterns) {
-					const pattern = patterns[i];
-					return (
-						part === pattern || //slug
-						pattern.endsWith('?') || // optional
-						pattern.startsWith(':') // param
-					);
-				}
+			const pathFitsTo = splitted.every((part, i) => {
+				if (i in patterns) return (part === patterns[i] || patterns[i].startsWith(':'));
 			});
+			const toFitsPath = patterns.every((pattern, i) => {
+				if (pattern.endsWith('?')) return true;
+				if (pattern.startsWith(':')) return (i in splitted);
+				return (splitted[i] === pattern);
+			});
+			return (pathFitsTo && toFitsPath);
 		},
 		'createPath': (params = {}) => '/' + patterns.map(pattern => {
 			if (pattern.startsWith(':')) return params[pattern.slice(1)];
@@ -113,10 +111,7 @@ export const navigation = {
 	setQueryParams(params, opts) {
 		navigate(location.pathname + encodeSearchString({...queryParamStore.state, ...params}), opts);
 	},
-	back() {
-		if (canNavigate) history.back();
-	},
-	goBack(steps) {
+	goBack(steps = 1) {
 		if (canNavigate) history.go(steps * -1);
 	},
 };
