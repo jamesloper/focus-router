@@ -9,6 +9,7 @@ const routes = [],
 	paramStore = createBus({}),
 	queryParamStore = createBus({});
 
+// Called by changeRoute to update the internal state or by defineRoute to set the initial state
 const setRoute = route => {
 	routeStore.update(route);
 	pathStore.update(location.pathname + location.search);
@@ -30,12 +31,11 @@ export const defineRoute = (name, path, component, layout = Fragment) => {
 			const pathFitsTo = splitted.every((part, i) => {
 				if (i in patterns) return (part === patterns[i] || patterns[i].startsWith(':'));
 			});
-			const toFitsPath = patterns.every((pattern, i) => {
+			if (pathFitsTo) return patterns.every((pattern, i) => { // to fits path
 				if (pattern.endsWith('?')) return true;
 				if (pattern.startsWith(':')) return (i in splitted);
 				return (splitted[i] === pattern);
 			});
-			return (pathFitsTo && toFitsPath);
 		},
 		'createPath': (params = {}) => '/' + patterns.map(pattern => {
 			if (pattern.startsWith(':')) return params[pattern.slice(1)];
@@ -48,14 +48,17 @@ export const defineRoute = (name, path, component, layout = Fragment) => {
 	if (!routeStore.state && route.test(location.pathname)) setRoute(route);
 };
 
+// Called to react to a change in the URL and apply that change to internal state
 const changeRoute = () => {
 	if (!canNavigate) return history.pushState(null, null, pathStore.state);
 	const route = routes.find(r => r.test(location.pathname));
 	if (route) setRoute(route);
 };
 
+// Call changeRoute when user navigates with the browser (out of our control)
 window.onpopstate = changeRoute;
 
+// Navigation primitive used by all navigation functions
 const navigate = (to, opts = {}) => {
 	if (!canNavigate) return;
 	opts = {'replaceState': false, 'scrollToTop': true, ...opts}; // set defaults for opts
@@ -70,18 +73,20 @@ export const createLink = (routeName, params, queryParams) => {
 	return route.createPath(params) + encodeSearchString(queryParams);
 };
 
+// Returns the route name (from your defineRoute)
 export const useRouteName = () => useBus(routeStore).name;
 
+// Useful only for debugging really
 export const useParams = () => useBus(paramStore);
 
 export const useParam = (key, defaultValue) => {
-	const params = useBus(paramStore);
-	return (key in params) ? params[key] : defaultValue;
+	const p = useBus(paramStore);
+	return (key in p) ? p[key] : defaultValue;
 };
 
 export const useQueryParam = (key, defaultValue) => {
-	const params = useBus(queryParamStore);
-	return (key in params) ? params[key] : defaultValue;
+	const p = useBus(queryParamStore);
+	return (key in p) ? p[key] : defaultValue;
 };
 
 export const useUnsavedChanges = (active, callback) => {
@@ -129,8 +134,11 @@ document.addEventListener('click', e => {
 	if (e.metaKey || e.ctrlKey || e.defaultPrevented) return;
 
 	const link = e.composedPath().find(el => el.tagName === 'A');
-	if (link && link.hostname === location.hostname) {
-		e.preventDefault();
-		navigate(link.href);
+	if (link) {
+		if (link.target === '_blank') return;
+		if (link.hostname === location.hostname) {
+			e.preventDefault();
+			navigate(link.href);
+		}
 	}
 });
